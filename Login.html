@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign In — University Portal</title>
+  <style>
+    :root{
+      --bg:#f3f7fb;
+      --card:#ffffff;
+      --accent:#1f6feb;
+      --muted:#6b7280;
+      --danger:#e11d48;
+      --radius:12px;
+      --shadow: 0 6px 20px rgba(18, 38, 63, 0.08);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      background:linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      color:#0f1724;
+    }
+    .container{
+      width:100%;
+      max-width:940px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+    }
+
+    /* left info */
+    .info {
+      padding:28px;
+      background:transparent;
+    }
+    .brand {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:18px;
+    }
+    .logo {
+      width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#00b4ff);
+      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;
+    }
+    h1{ margin:0 0 8px 0; font-size:22px; }
+    p.lead{ margin:0 0 18px 0; color:var(--muted); line-height:1.5; }
+
+    /* card */
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      padding:28px;
+    }
+    form{ display:flex; flex-direction:column; gap:12px; }
+
+    label{ font-size:13px; margin-bottom:6px; color:#0f1724; display:block; }
+    .input{
+      width:100%;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid #e6eef8;
+      background:#fff;
+      outline:none;
+      font-size:15px;
+      transition: box-shadow .12s, border-color .12s;
+    }
+    .input:focus{
+      border-color:var(--accent);
+      box-shadow:0 4px 12px rgba(31,111,235,0.08);
+    }
+
+    .row{ display:flex; gap:12px; }
+    .row .col{ flex:1; }
+
+    .actions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:6px;
+    }
+    .btn{
+      background:var(--accent);
+      color:#fff;
+      padding:11px 16px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      font-size:15px;
+    }
+    .btn:active{ transform:translateY(1px); }
+    .btn.secondary{ background:transparent; color:var(--muted); border:1px solid #eef6ff; }
+
+    .small{
+      font-size:13px;color:var(--muted);
+    }
+    .links{ display:flex; gap:12px; align-items:center; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .error{ color:var(--danger); font-size:13px; margin-top:6px; }
+
+    /* responsive */
+    @media (max-width:920px){
+      .container{ grid-template-columns:1fr; max-width:720px; }
+    }
+    @media (max-width:420px){
+      .card{ padding:18px; }
+      .brand h1{ font-size:18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <div class="info" aria-hidden="false">
+      <div class="brand" aria-hidden="false">
+        <div class="logo">UP</div>
+        <div>
+          <h1>University Portal</h1>
+          <div class="small">Student Application System — Admin/Login</div>
+        </div>
+      </div>
+
+      <p class="lead">Sign in to continue to your dashboard. Use your university email to access applications, track progress, and manage your account.</p>
+
+      <ul class="small" style="margin-top:12px;line-height:1.7;">
+        <li>Secure access with encrypted sessions</li>
+        <li>Support for password reset</li>
+        <li>Remember me option for trusted devices</li>
+      </ul>
+    </div>
+
+    <div class="card" aria-labelledby="signin-heading">
+      <h2 id="signin-heading" style="margin:0 0 6px 0;">Sign in to your account</h2>
+      <p class="small" style="margin:0 0 14px 0;">Enter your credentials below.</p>
+
+      <form id="loginForm" action="/login" method="POST" novalidate>
+        <div>
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" class="input" required autocomplete="email" placeholder="you@university.edu" />
+          <div id="emailError" class="error" aria-live="polite" style="display:none;"></div>
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <div style="position:relative;">
+            <input id="password" name="password" type="password" class="input" required autocomplete="current-password" placeholder="••••••••" />
+            <button type="button" id="togglePwd" aria-pressed="false" title="Show password"
+              style="position:absolute;right:8px;top:8px;background:transparent;border:none;cursor:pointer;padding:6px;font-size:13px;color:var(--muted)">
+              Show
+            </button>
+          </div>
+          <div id="pwdError" class="error" aria-live="polite" style="display:none;"></div>
+        </div>
+
+        <div class="actions" style="margin-top:6px;">
+          <label style="display:flex;align-items:center;gap:8px;">
+            <input type="checkbox" name="remember" id="remember" style="width:16px;height:16px" />
+            <span class="small">Remember me</span>
+          </label>
+
+          <div class="links small">
+            <a href="/forgot-password">Forgot password?</a>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center;margin-top:14px;">
+          <button class="btn" type="submit">Sign in</button>
+          <button class="btn secondary" type="button" onclick="location.href='/signup'">Create account</button>
+          <div style="flex:1;text-align:right;font-size:13px;color:var(--muted);">Need help? <a href="/help">Contact support</a></div>
+        </div>
+
+        <div id="formMsg" role="status" aria-live="polite" style="margin-top:10px;"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const form = document.getElementById('loginForm');
+      const email = document.getElementById('email');
+      const pwd  = document.getElementById('password');
+      const toggle = document.getElementById('togglePwd');
+      const emailError = document.getElementById('emailError');
+      const pwdError = document.getElementById('pwdError');
+      const formMsg = document.getElementById('formMsg');
+
+      // toggle password visibility
+      toggle.addEventListener('click', () => {
+        const isHidden = pwd.type === 'password';
+        pwd.type = isHidden ? 'text' : 'password';
+        toggle.textContent = isHidden ? 'Hide' : 'Show';
+        toggle.setAttribute('aria-pressed', String(isHidden));
+      });
+
+      // simple validation
+      function validate(){
+        let ok = true;
+        emailError.style.display = 'none';
+        pwdError.style.display = 'none';
+        formMsg.textContent = '';
+
+        if(!email.value.trim()){
+          emailError.textContent = 'Email is required.';
+          emailError.style.display = 'block';
+          ok = false;
+        } else if(!/^\S+@\S+\.\S+$/.test(email.value)){
+          emailError.textContent = 'Enter a valid email address.';
+          emailError.style.display = 'block';
+          ok = false;
+        }
+
+        if(!pwd.value || pwd.value.length < 6){
+          pwdError.textContent = 'Password must be at least 6 characters.';
+          pwdError.style.display = 'block';
+          ok = false;
+        }
+        return ok;
+      }
+
+      // handle submit (progressive: if JS present we prevent default to show messages)
+      form.addEventListener('submit', function(e){
+        if(!validate()){
+          e.preventDefault();
+          formMsg.textContent = 'Please fix the errors above.';
+          formMsg.style.color = '#e11d48';
+          return;
+        }
+
+        // If you want to handle via fetch (AJAX) instead of normal POST, uncomment below:
+        /*
+        e.preventDefault();
+        fetch(form.action, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            email: email.value.trim(),
+            password: pwd.value,
+            remember: document.getElementById('remember').checked
+          })
+        }).then(r => r.json()).then(data => {
+          if(data.success){
+            window.location.href = data.redirect || '/dashboard';
+          } else {
+            formMsg.textContent = data.message || 'Login failed';
+            formMsg.style.color = '#e11d48';
+          }
+        }).catch(err => {
+          formMsg.textContent = 'Network error';
+          formMsg.style.color = '#e11d48';
+          console.error(err);
+        });
+        */
+      });
+
+      // focus email on load
+      window.addEventListener('load', () => email.focus());
+    })();
+  </script>
+</body>
+</html>
